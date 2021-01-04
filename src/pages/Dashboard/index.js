@@ -32,8 +32,8 @@ const Dashboard = () => {
                         <th>07:00 as 08:00</th>
                         <th></th>
                         <Link to="/classroom">
-                            <th style={{background: "#6ff2bc"}}>
-                                Aula
+                            <th style={{background: "#33a242", display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                                Aula de hoje
                             </th>
                         </Link>
                         <th></th>

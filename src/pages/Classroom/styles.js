@@ -19,7 +19,7 @@ export const HeaderContent = styled.div`
     display: flex;
     align-items: center;
 
-    button {
+    a, h1 {
         background: transparent;
         border: 0;
         font-weight: bold;
@@ -39,21 +39,5 @@ export const HeaderContent = styled.div`
 `;
 
 export const Content = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 16vh;
-    margin-bottom: 16vh;
-
-    a {
-        text-decoration: none;
-        color: #fff;
-    }
-
-    th {
-        border-radius: 10%;
-        width: 16vh;
-        height: 12vh;
-        background: #fff;
-    }
+    margin-top: 2vh;
 `;
