@@ -9,7 +9,7 @@ import Classroom from '../pages/Classroom';
 
 const Routes = () => (
     <Switch>
-        <Route path="/" exact component={Login} />
+        <Route path="/" exact component={Dashboard} />
         <Route path="/register" component={SignUp} />
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/classroom" component={Classroom} />

@@ -14,7 +14,7 @@ const Classroom = () => {
     <Container>
           <Header>
           <HeaderContent>
-            <Link to="/dashboard">
+            <Link to="/">
               <img src={backImg} alt="back"></img>
             </Link>
             
