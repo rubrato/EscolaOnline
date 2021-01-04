@@ -30,43 +30,43 @@ const Dashboard = () => {
                     </tr>
                     <tr>
                         <th>07:00 as 08:00</th>
-                        <th>1</th>
-                        <th>2</th>
-                        <th>3</th>
-                        <th>4</th>
-                        <th>5</th>
+                        <th></th>
+                        <Link to="/classroom">
+                            <th style={{background: "#6ff2bc"}}>
+                                Aula
+                            </th>
+                        </Link>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     <tr>
                         <th>08:05 às 09:10</th>
-                        <th>1</th>
-                        <th>2</th>
-                        <th>3</th>
-                        <th>4</th>
-                        <th>5</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     <tr>
                         <th>09:45 às 10:05</th>
-                        <th>1</th>
-                        <th>2</th>
-                        <th>3</th>
-                        <th>4</th>
-                        <th>5</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     <tr>
                         <th>10:05 às 11:10</th>
-                        <th>1</th>
-                        <th>2</th>
-                        <th>3</th>
-                        <th>4</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
                         <th>
-                        <Link to="/classroom">
-                            Aula
-                        </Link>
                         </th>
                     </tr>
                 </table>
                 </div>
-                <div><h1>teste</h1></div>
             </Content>
 
         </Container>
