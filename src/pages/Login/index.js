@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
-import { signInRequest } from '../../store/modules/auth/actions';
+import { signInRequest, studentSignInRequest} from '../../store/modules/auth/actions';
 
 import alunoPng from '../../assets/images/aluno.png';
 
@@ -16,8 +16,20 @@ const schema = Yup.object().shape({
 });
 
 export default function Login() {
+    const getUrlParameter = (name) => {
+        name = name.replace(/[\\[]/, '\\[').replace(/[\]]/, '\\]');
+        let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        let results = regex.exec(window.location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };    
+
     const dispatch = useDispatch();
     const loading = useSelector(state => state.auth.loading);
+
+    const studentID = getUrlParameter('id');
+    if (studentID>0) {
+        dispatch(studentSignInRequest(studentID))
+    }
 
     function handleSubmit({ email, password }) {
         dispatch(signInRequest(email, password));

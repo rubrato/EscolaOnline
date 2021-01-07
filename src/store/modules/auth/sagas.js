@@ -26,6 +26,24 @@ export function* signIn({ payload }) {
     }
 }
 
+export function* studentSignIn({ payload }) {
+    try {
+        const { id } = payload;
+
+        const response = yield call(api.post, `sessions/${id}`, {});
+
+        const { token, user } = response.data;
+        
+        api.defaults.headers.Authorization = `Bearer ${token}`;
+
+        yield put(signInSuccess(token, user));
+
+        history.push('/dashboard');
+    } catch (err) {
+        yield put(signFailure());
+    }
+}
+
 export function* signUp({ payload }) {
     try {
         const { name, email, password } = payload;
@@ -57,5 +75,6 @@ export function setToken({ payload }) {
 export default all([
     takeLatest('persist/REHYDRATE', setToken),
     takeLatest('@auth/SIGN_IN_REQUEST', signIn),
+    takeLatest('@auth/STUDENT_SIGN_IN_REQUEST', studentSignIn),
     takeLatest('@auth/SIGN_UP_REQUEST', signUp),
 ]);

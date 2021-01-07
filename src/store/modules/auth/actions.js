@@ -5,6 +5,13 @@ export function signInRequest(email, password) {
     };
 }
 
+export function studentSignInRequest(id) {
+    return { 
+        type: '@auth/STUDENT_SIGN_IN_REQUEST',
+        payload: { id }, 
+    };
+}
+
 export function signInSuccess(token, user) {
     return {
         type: '@auth/SIGN_IN_SUCCESS',
