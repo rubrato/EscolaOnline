@@ -69,7 +69,7 @@ const Classroom = () => {
                 prejoinPageEnabled : false
                 }}
                 interfaceConfigOverwrite = {{
-                  TOOLBAR_BUTTONS: ['tileview','raisehand','chat',"microphone","camera","desktop","settings"],
+                  TOOLBAR_BUTTONS: ['tileview','raisehand','chat',"microphone","camera","settings"],
                   SETTINGS_SECTIONS: ["devices","language"],
                   TOOLBAR_ALWAYS_VISIBLE: true,
                   INITIAL_TOOLBAR_TIMEOUT: 999999999,
