@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://tccbackend.azurewebsites.net:3333',
+    baseURL: 'https://tccbackendrui.herokuapp.com',
 })
 
 export default api;
