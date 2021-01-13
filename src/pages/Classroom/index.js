@@ -25,7 +25,7 @@ const Classroom = () => {
 
   const user = useSelector(state => state.user.profile);
 
-  const socket = useMemo(() => socketio('http://localhost:3333', {
+  const socket = useMemo(() => socketio('https://tccbackendrui.herokuapp.com', {
     query: {
       user_id: user.id
     }
