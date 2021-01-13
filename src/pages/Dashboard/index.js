@@ -1,11 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import alunoImg from '../../assets/images/aluno.png';
+
+import { signOut } from '../../store/modules/auth/actions';
 
 import { Container, Header, HeaderContent, Content } from './styles';
 
 const Dashboard = () => {
+    const dispatch = useDispatch();
+
+    function handleSignOut() {
+        dispatch(signOut());
+    }
+
     return (
         <Container>
             <Header>
@@ -14,6 +23,7 @@ const Dashboard = () => {
                     <button type="button">Ajuda</button>
 
                     <img src={alunoImg} alt="aluno"></img>
+                    <button type="button" onClick={handleSignOut}>Sair</button>
                 </HeaderContent>
             </Header>
 
