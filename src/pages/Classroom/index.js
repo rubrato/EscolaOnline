@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import socketio from 'socket.io-client';
 import { useSelector } from 'react-redux';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import { Jutsu } from 'react-jutsu'
 
@@ -9,19 +10,28 @@ import { store } from '../../store';
 
 import backImg from '../../assets/images/back.png';
 import alunoImg from '../../assets/images/aluno.png';
-import {Container, Header, HeaderContent, Content} from './styles';
+import rightAnswer from '../../assets/gifs/rightanswer.gif';
 
-
+import { Container, Header, HeaderContent, Content, Form, AnswerButton } from './styles';
 
 const Classroom = () => {
   const userName = store.getState().user.profile.name;
   const teacher = store.getState().user.profile.teacher;
   const [ question, setQuestion ] = useState({});
-  const [ tQuestion, updateTQuestion] = useState('');
-  const [ tAnswer1, updateTAnswer1] = useState('');
-  const [ tAnswer2, updateTAnswer2] = useState('');
-  const [ tAnswer3, updateTAnswer3] = useState('');
-  const [ tAnswer4, updateTAnswer4] = useState('');
+  const [totalOfStudents, settotalOfStudents] = useState(0);
+  const [tQuestion, updateTQuestion] = useState('');
+  const [tAnswer1, updateTAnswer1] = useState('');
+  const [tAnswer2, updateTAnswer2] = useState('');
+  const [tAnswer3, updateTAnswer3] = useState('');
+  const [tAnswer4, updateTAnswer4] = useState('');
+  const [wNewQuestion, setWNewQuestion] = useState(false);
+
+  const [bOneChecked, setBOneChecked] = useState(true);
+  const [bTwoChecked, setBTwoChecked] = useState(false);
+  const [bThreeChecked, setBThreeChecked] = useState(false);
+  const [bFourChecked, setBFourChecked] = useState(false);
+
+  const [countAnswer, setCountAnswer] = useState(0);
 
   const user = useSelector(state => state.user.profile);
 
@@ -32,21 +42,32 @@ const Classroom = () => {
   }), [user.id]);
 
   useEffect(() => {
-    const handleNewQuestion = newQuestion=>{
+    const handleNewQuestion = (newQuestion, students)  =>{
       setQuestion(newQuestion);
+      settotalOfStudents(students);
+      setWNewQuestion(false);
     }
+
+    const handleSetNewAnswer = answer => {
+      setCountAnswer(answer);
+    }
+
+    socket.on('answer', handleSetNewAnswer);
+    
+
     socket.on('question', handleNewQuestion);
     return () => socket.off('question', handleNewQuestion);
 
-  }, [socket, question])
+  }, [socket, question, countAnswer, totalOfStudents, wNewQuestion])
 
   const handleFormSubmit = event => {
     //setQuestion({question : 'abc'})
+    event.preventDefault();
     socket.emit('sendQuestion', {question : tQuestion, answers: 
-      [{a1: tAnswer1, right: false},
-      {a2: tAnswer2, right : true},
-      {a3: tAnswer3, right: false},
-      {a4: tAnswer4, right: false}]});
+      [{answer: tAnswer1, right: bOneChecked},
+      {answer: tAnswer2, right : bTwoChecked},
+      {answer: tAnswer3, right: bThreeChecked},
+      {answer: tAnswer4, right: bFourChecked}]});
       updateTQuestion('');
       updateTAnswer1('');
       updateTAnswer2('');
@@ -54,15 +75,71 @@ const Classroom = () => {
       updateTAnswer4('');
   }
 
-  const handleInputChange = event =>
+  const handleSetBOneChecked = (event) => {
+    setBOneChecked(event.target.checked);
+  }
+  const handleSetBTwoChecked = (event) => {
+    setBTwoChecked(event.target.checked);
+  }
+  const handleSetBThreeChecked = (event) => {
+    setBThreeChecked(event.target.checked);
+  }
+  const handleSetBFourChecked = (event) => {
+    setBFourChecked(event.target.checked);
+  }
+
+  const handleInputOneChange = (event) => { 
     updateTQuestion(event.target.value)
+  }
+  const handleInputTwoChange = (event) => { 
+    updateTAnswer1(event.target.value)
+  }
+  const handleInputThreeChange = (event) => { 
+    updateTAnswer2(event.target.value)
+  }
+  const handleInputFourChange = (event) => { 
+    updateTAnswer3(event.target.value)
+  }
+  const handleInputFiveChange = (event) => { 
+    updateTAnswer4(event.target.value)
+  }
+
+  const handleAnswerOne = () => {
+    if(question.answers[0].right) {
+      socket.emit('sendAnswer');
+      setQuestion({});
+      setWNewQuestion(true);
+    }
+  }
+  const handleAnswerTwo = () => {
+    if(question.answers[1].right) {
+      socket.emit('sendAnswer');
+      setQuestion({});
+      setWNewQuestion(true)
+    }
+  }
+  const handleAnswerThree = () => {
+    if(question.answers[2].right) {
+      socket.emit('sendAnswer');
+      setQuestion({});
+      setWNewQuestion(true)
+    }
+  }
+  const handleAnswerFour = () => {
+    if(question.answers[3].right) {
+      socket.emit('sendAnswer');
+      setQuestion({});
+      setWNewQuestion(true)
+    }
+  }
   
-  console.log(userName);
-  console.log(question);
+  console.log('usuário logado', userName);
+  console.log('question', question);
+  console.log('answer', countAnswer);
+  console.log('students logados', totalOfStudents);
 
   return (
-      <div>
-          <Container>
+      <Container>
           <Header>
           <HeaderContent>
             <Link to="/">
@@ -77,7 +154,7 @@ const Classroom = () => {
 
         <Content>
         { teacher ? 
-              <Jutsu containerStyles={{ width: '90vw', height: '85vh' }}
+              <Jutsu containerStyles={{ width: '65vw', height: '90vh' }}
                 roomName="sala_de_aula002"
                 displayName={userName}
                 onMeetingEnd={() => console.log('Meeting has ended')}
@@ -103,7 +180,7 @@ const Classroom = () => {
                   }}
               />
           :
-              <Jutsu containerStyles={{ width: '90vw', height: '90vh' }}
+              <Jutsu containerStyles={{ width: '65vw', height: '90vh' }}
                 roomName="sala_de_aula002"
                 displayName={userName}
                 onMeetingEnd={() => console.log('Meeting has ended')}
@@ -126,43 +203,78 @@ const Classroom = () => {
                 }}
               />
             }
-            <form className="form" onSubmit={handleFormSubmit}>
-                <input
-                    className="question"
-                    onChange={handleInputChange}
-                    placeholder="Pergunta"
-                    type="text"
-                    value={tQuestion}
-                />
-                <input
-                    className="answer"
-                    placeholder="Resposta 1"
-                    type="text"
-                    value={tAnswer1}
-                />
-                <input
-                    className="answer"
-                    placeholder="Resposta 2"
-                    type="text"
-                    value={tAnswer2}
-                />
-                <input
-                    className="answer"
-                    placeholder="Resposta 3"
-                    type="text"
-                    value={tAnswer3}
-                />
-                <input
-                    className="answer"
-                    placeholder="Resposta 3"
-                    type="text"
-                    value={tAnswer4}
-                />
-            </form>
-            <button type='button' onClick={handleFormSubmit}>Clica</button>
+            { teacher ?
+                <div>
+                    <Form className="form" onSubmit={handleFormSubmit}>
+                      <h1>Criar pergunta</h1>
+                      <input
+                          className="question"
+                          onChange={handleInputOneChange}
+                          placeholder="Pergunta"
+                          value={tQuestion}
+                          style={{width: '20vw'}}
+                      />
+                      <div>
+                        <input
+                            className="answer"
+                            placeholder="Resposta 1"
+                            onChange={handleInputTwoChange}
+                            value={tAnswer1}
+                            style={{width: '20vw'}}
+                        />
+                        <Checkbox checked={bOneChecked} color="primary" onChange={handleSetBOneChecked} />
+                      </div>
+                      <div>
+                        <input
+                            className="answer"
+                            placeholder="Resposta 2"
+                            onChange={handleInputThreeChange}
+                            value={tAnswer2}
+                            style={{width: '20vw'}}
+                        />
+                        <Checkbox checked={bTwoChecked} color="primary" onChange={handleSetBTwoChecked} />
+                      </div>
+                      <div>
+                        <input
+                            className="answer"
+                            placeholder="Resposta 3"
+                            onChange={handleInputFourChange}
+                            value={tAnswer3}
+                            style={{width: '20vw'}}
+                        />
+                        <Checkbox checked={bThreeChecked} color="primary" onChange={handleSetBThreeChecked} />
+                      </div>
+                      <div>
+                        <input
+                            className="answer"
+                            placeholder="Resposta 4"
+                            onChange={handleInputFiveChange}
+                            value={tAnswer4}
+                            style={{width: '20vw'}}
+                        />
+                        <Checkbox checked={bFourChecked} color="primary" onChange={handleSetBFourChecked} />
+                      </div>
+                      <button type='submit' onClick={handleFormSubmit}>Enviar</button>
+                  </Form> 
+                  {question.question ? <div><h1>Alunos on-line: </h1><h1>{totalOfStudents}</h1></div> : null}
+                  {question.question ? <div><h1>Respostas corretas registradas: </h1><h1>{countAnswer}</h1></div> : null}
+                </div> :
+              <div>
+                { question.question ? 
+                    <div>
+                      <h1>{question.question}</h1>
+                      <AnswerButton type="button" onClick={handleAnswerOne}>{question.answers[0].answer}</AnswerButton>
+                      <AnswerButton type="button" onClick={handleAnswerTwo}>{question.answers[1].answer}</AnswerButton>
+                      <AnswerButton type="button" onClick={handleAnswerThree}>{question.answers[2].answer}</AnswerButton>
+                      <AnswerButton type="button" onClick={handleAnswerFour}>{question.answers[3].answer}</AnswerButton>
+                    </div>
+
+                 : wNewQuestion ? <img src={rightAnswer} alt="right answer"/> :
+                    null}
+              </div>
+            }
         </Content>
     </Container>
-      </div>
   )
 }
 

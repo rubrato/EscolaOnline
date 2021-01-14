@@ -40,4 +40,46 @@ export const HeaderContent = styled.div`
 
 export const Content = styled.div`
     margin-top: 2vh;
+    display: flex;
+`;
+
+export const Form = styled.form`
+    display: flex;
+    flex-direction: column;
+
+    width: 30vw;
+    margin-left: 24px;
+
+    div {
+        width: 100%;
+    }
+
+    input {
+        height: 30px;
+        margin-top: 5px;
+
+        padding: 0 24px;
+        border: 0;
+        border-radius: 5px 0 0 5px;
+        color: #3a3a3a;
+        border: 2px solid #FFF;
+        border-right: 0;
+    }
+
+    button {
+        height: 30px;
+        margin-top: 14px;
+        width: 20vw;
+
+        border-radius: 5px 0 0 5px;
+        border: 0;
+        color: #3a3a3a;
+        font-weight: bold;
+        transition: background-color 0.2s;
+    }
+`;
+
+export const AnswerButton = styled.button`
+    width: 100px;
+    height: 50px;
 `;
