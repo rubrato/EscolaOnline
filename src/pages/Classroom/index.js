@@ -18,7 +18,9 @@ const Classroom = () => {
   const userName = store.getState().user.profile.name;
   const teacher = store.getState().user.profile.teacher;
   const [ question, setQuestion ] = useState({});
+  const [sent, setSent] = useState(false);
   const [totalOfStudents, settotalOfStudents] = useState(0);
+
   const [tQuestion, updateTQuestion] = useState('');
   const [tAnswer1, updateTAnswer1] = useState('');
   const [tAnswer2, updateTAnswer2] = useState('');
@@ -30,12 +32,14 @@ const Classroom = () => {
   const [bTwoChecked, setBTwoChecked] = useState(false);
   const [bThreeChecked, setBThreeChecked] = useState(false);
   const [bFourChecked, setBFourChecked] = useState(false);
+  const [answered, setAnswered] = useState({});
 
-  const [countAnswer, setCountAnswer] = useState(0);
+  const [right, setRight] = useState([]);
+  const [wrong, setwrong] = useState([]);
 
   const user = useSelector(state => state.user.profile);
 
-  const socket = useMemo(() => socketio('https://tccbackendrui.herokuapp.com', {
+  const socket = useMemo(() => socketio('http://localhost:3333', {
     query: {
       user_id: user.id
     }
@@ -46,33 +50,56 @@ const Classroom = () => {
       setQuestion(newQuestion);
       settotalOfStudents(students);
       setWNewQuestion(false);
+      setAnswered({answered:false});
     }
 
-    const handleSetNewAnswer = answer => {
-      setCountAnswer(answer);
+    const handleSetNewAnswer = (right, wrong) => {
+      setRight(right);
+      setwrong(wrong)
     }
+
+    socket.on('question', handleNewQuestion);
 
     socket.on('answer', handleSetNewAnswer);
     
+    socket.on('showAnswer', () => {
+      if (answered.answered){
+        if (answered.answer){
+          setWNewQuestion(true);
+          setTimeout(setWNewQuestion, 3000, false);
+        }
+      }
+      setTimeout(setQuestion, 3000, {});
+      setAnswered({})
+    });
 
-    socket.on('question', handleNewQuestion);
     return () => socket.off('question', handleNewQuestion);
 
-  }, [socket, question, countAnswer, totalOfStudents, wNewQuestion])
+  }, [socket, question, totalOfStudents, wNewQuestion, answered])
 
   const handleFormSubmit = event => {
     //setQuestion({question : 'abc'})
     event.preventDefault();
-    socket.emit('sendQuestion', {question : tQuestion, answers: 
-      [{answer: tAnswer1, right: bOneChecked},
-      {answer: tAnswer2, right : bTwoChecked},
-      {answer: tAnswer3, right: bThreeChecked},
-      {answer: tAnswer4, right: bFourChecked}]});
-      updateTQuestion('');
-      updateTAnswer1('');
-      updateTAnswer2('');
-      updateTAnswer3('');
-      updateTAnswer4('');
+    if (tQuestion && tAnswer1 && tAnswer2 && tAnswer3 && tAnswer4){
+      if (!sent) {
+      socket.emit('sendQuestion', {question : tQuestion, answers: 
+        [{answer: tAnswer1, right: bOneChecked},
+        {answer: tAnswer2, right : bTwoChecked},
+        {answer: tAnswer3, right: bThreeChecked},
+        {answer: tAnswer4, right: bFourChecked}]});
+        setSent(true);
+      } else {
+        socket.emit('showAnswers')
+        updateTQuestion('');
+        updateTAnswer1('');
+        updateTAnswer2('');
+        updateTAnswer3('');
+        updateTAnswer4('');
+        setSent(false);
+        setQuestion({});
+        setRight([]);
+        setwrong([]);
+      }}
   }
 
   const handleSetBOneChecked = (event) => {
@@ -105,38 +132,23 @@ const Classroom = () => {
   }
 
   const handleAnswerOne = () => {
-    if(question.answers[0].right) {
-      socket.emit('sendAnswer');
-      setQuestion({});
-      setWNewQuestion(true);
-    }
+    socket.emit('sendAnswer', {answer:question.answers[0].right, name: userName});
+    //setQuestion({});
+    //setWNewQuestion(true);
+    setAnswered({answered:true, answer:question.answers[0].right});
   }
   const handleAnswerTwo = () => {
-    if(question.answers[1].right) {
-      socket.emit('sendAnswer');
-      setQuestion({});
-      setWNewQuestion(true)
-    }
+    socket.emit('sendAnswer', {answer:question.answers[1].right, name: userName});
+    setAnswered({answered:true, answer:question.answers[1].right});
   }
   const handleAnswerThree = () => {
-    if(question.answers[2].right) {
-      socket.emit('sendAnswer');
-      setQuestion({});
-      setWNewQuestion(true)
-    }
+    socket.emit('sendAnswer', {answer:question.answers[2].right, name: userName});
+    setAnswered({answered:true, answer:question.answers[2].right});
   }
   const handleAnswerFour = () => {
-    if(question.answers[3].right) {
-      socket.emit('sendAnswer');
-      setQuestion({});
-      setWNewQuestion(true)
-    }
+    socket.emit('sendAnswer', {answer:question.answers[3].right, name: userName});
+    setAnswered({answered:true, answer:question.answers[3].right});
   }
-  
-  console.log('usuário logado', userName);
-  console.log('question', question);
-  console.log('answer', countAnswer);
-  console.log('students logados', totalOfStudents);
 
   return (
       <Container>
@@ -206,6 +218,7 @@ const Classroom = () => {
             { teacher ?
                 <div>
                     <Form className="form" onSubmit={handleFormSubmit}>
+                      <fieldset disabled={sent}>
                       <h1>Criar pergunta</h1>
                       <input
                           className="question"
@@ -254,23 +267,27 @@ const Classroom = () => {
                         />
                         <Checkbox checked={bFourChecked} color="primary" onChange={handleSetBFourChecked} />
                       </div>
-                      <button type='submit' onClick={handleFormSubmit}>Enviar</button>
+                      </fieldset>
+                      <button type='submit' onClick={handleFormSubmit}>{ sent ? 'Liberar respostas' : 'Enviar' }</button>
                   </Form> 
                   {question.question ? <div><h1>Alunos on-line: </h1><h1>{totalOfStudents}</h1></div> : null}
-                  {question.question ? <div><h1>Respostas corretas registradas: </h1><h1>{countAnswer}</h1></div> : null}
+                  {question.question ? <div><h1>Respostas corretas: </h1><h1>{right.length}  </h1> <div>{right}</div> </div> : null}
+                  {question.question ? <div><h1>Respostas incorretas: </h1><h1>{wrong.length} {wrong}</h1></div> : null}
                 </div> :
               <div>
                 { question.question ? 
                     <div>
                       <h1>{question.question}</h1>
+                      <fieldset disabled={answered.answered}>
                       <AnswerButton type="button" onClick={handleAnswerOne}>{question.answers[0].answer}</AnswerButton>
                       <AnswerButton type="button" onClick={handleAnswerTwo}>{question.answers[1].answer}</AnswerButton>
                       <AnswerButton type="button" onClick={handleAnswerThree}>{question.answers[2].answer}</AnswerButton>
                       <AnswerButton type="button" onClick={handleAnswerFour}>{question.answers[3].answer}</AnswerButton>
+                      </fieldset>
                     </div>
 
-                 : wNewQuestion ? <img src={rightAnswer} alt="right answer"/> :
-                    null}
+                 : null}
+                 {wNewQuestion ? <img src={rightAnswer} alt="right answer"/> : null }
               </div>
             }
         </Content>

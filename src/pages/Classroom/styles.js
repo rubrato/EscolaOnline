@@ -54,6 +54,10 @@ export const Form = styled.form`
         width: 100%;
     }
 
+    fieldset {
+        
+    }
+
     input {
         height: 30px;
         margin-top: 5px;
