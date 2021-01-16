@@ -9,8 +9,7 @@ import gif8 from './birthday.gif';
 import gif9 from './questionTime.gif';
 import gif10 from './bye.gif';
 
-
-export default [
+let gifs = [
   '0',
   gif1,
   gif2,
@@ -22,4 +21,6 @@ export default [
   gif8,
   gif9,
   gif10
-]
+];
+
+export default gifs;

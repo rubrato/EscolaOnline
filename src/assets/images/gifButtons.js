@@ -7,8 +7,7 @@ import but6 from './aniversario.png';
 import but7 from './hora.png';
 import but8 from './tchau.png';
 
-
-export default [
+let buttons = [
   but1,
   but2,
   but3,
@@ -17,4 +16,6 @@ export default [
   but6,
   but7,
   but8,
-]
+];
+
+export default buttons;
