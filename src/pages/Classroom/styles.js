@@ -96,7 +96,23 @@ export const AnswerButton = styled.button`
     border: 0;
     border-radius: 5px;
     color: #3a3a3a;
+    :disabled{
+        background:blue;
+
+        :isselected{
+            border:5px;
+            background:red;
+            width: 20vw;
+            height: 30px;
+            margin-top: 20px;
+            font-size: 28px;
+            padding: 0 24px;
+            border-radius: 15px;
+            color: #3a3a3a; 
+        }
+    }
 `;
+
 
 export const InputQuestion = styled.input`
     margin-top: 10px;
@@ -124,6 +140,9 @@ export const InputQuestion = styled.input`
 
     :-ms-input-placeholder {  
     text-align: center; 
+    }
+    :disabled{
+        background: green;
     }
 `;
 

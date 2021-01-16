@@ -10,9 +10,10 @@ import { store } from '../../store';
 
 import backImg from '../../assets/images/back.png';
 import alunoImg from '../../assets/images/aluno.png';
-import rightAnswer from '../../assets/gifs/rightanswer.gif';
+import rightAnswer from '../../assets/gifs/rightAnswer.gif';
+import gifs from '../../assets/gifs/gifs.js'
 
-import { Container, Header, HeaderContent, Content, Form, AnswerButton, InputQuestion, InputAnswer } from './styles';
+import { Container, Header, HeaderContent, Content, Form, AnswerButton, InputQuestion, InputAnswer, isselected } from './styles';
 
 const Classroom = () => {
   const userName = store.getState().user.profile.name;
@@ -32,10 +33,15 @@ const Classroom = () => {
   const [bTwoChecked, setBTwoChecked] = useState(false);
   const [bThreeChecked, setBThreeChecked] = useState(false);
   const [bFourChecked, setBFourChecked] = useState(false);
-  const [answered, setAnswered] = useState({});
-
+  const [gif, setGif] = useState(0);
   const [right, setRight] = useState([]);
   const [wrong, setwrong] = useState([]);
+
+  const [sBut0, setSbut0] = useState('');
+  const [sBut1, setSbut1] = useState('');
+  const [sBut2, setSbut2] = useState('');
+  const [sBut3, setSbut3] = useState('');
+  const [answered, setAnswered] = useState({});
 
   const user = useSelector(state => state.user.profile);
 
@@ -58,6 +64,11 @@ const Classroom = () => {
       setwrong(wrong)
     }
 
+    const handleGif = (gif) => {
+        setGif(gif);
+        setTimeout(setGif, 3000, 0);
+    }
+
     socket.on('question', handleNewQuestion);
 
     socket.on('answer', handleSetNewAnswer);
@@ -70,8 +81,10 @@ const Classroom = () => {
         }
       }
       setTimeout(setQuestion, 3000, {});
-      setAnswered({})
+      setAnswered({});
     });
+
+    socket.on('receiveGif', handleGif);
 
     return () => socket.off('question', handleNewQuestion);
 
@@ -131,28 +144,45 @@ const Classroom = () => {
     updateTAnswer4(event.target.value)
   }
 
-  const handleAnswerOne = () => {
-    socket.emit('sendAnswer', {answer:question.answers[0].right, name: userName});
-    //setQuestion({});
-    //setWNewQuestion(true);
-    setAnswered({answered:true, answer:question.answers[0].right});
-  }
-  const handleAnswerTwo = () => {
-    socket.emit('sendAnswer', {answer:question.answers[1].right, name: userName});
-    setAnswered({answered:true, answer:question.answers[1].right});
-  }
-  const handleAnswerThree = () => {
-    socket.emit('sendAnswer', {answer:question.answers[2].right, name: userName});
-    setAnswered({answered:true, answer:question.answers[2].right});
-  }
-  const handleAnswerFour = () => {
-    socket.emit('sendAnswer', {answer:question.answers[3].right, name: userName});
-    setAnswered({answered:true, answer:question.answers[3].right});
-  }
+  const handleAnswer = (resp) => event => {
+    socket.emit('sendAnswer', {answer:question.answers[resp].right, name: userName});
+    setAnswered({answered:true, answer:question.answers[resp].right, but:resp});
+    switch(resp) {
+      case 0:
+        setSbut0('isselected');
+        break;
+      case 1:
+        setSbut1('isselected');
+        break;
+      case 2:
+        setSbut2('isselected');
+        break;
+      case 3:
+        setSbut3('isselected')
+        break;
+      default:
+        console.log('que botão foi esse?')
+    }
 
-  const handleGifButton= (index) =>{
+  }
+  // const handleAnswerTwo = () => {
+  //   socket.emit('sendAnswer', {answer:question.answers[1].right, name: userName});
+  //   setAnswered({answered:true, answer:question.answers[1].right});
+  // }
+  // const handleAnswerThree = () => {
+  //   socket.emit('sendAnswer', {answer:question.answers[2].right, name: userName});
+  //   setAnswered({answered:true, answer:question.answers[2].right});
+  // }
+  // const handleAnswerFour = () => {
+  //   socket.emit('sendAnswer', {answer:question.answers[3].right, name: userName});
+  //   setAnswered({answered:true, answer:question.answers[3].right});
+  // }
+
+  const handleGifButton= (index) => event =>{
     socket.emit('sendGif', index);
   }
+
+  console.log(answered)
 
   return (
       <Container>
@@ -298,16 +328,21 @@ const Classroom = () => {
                   {question.question ? <div><h2>Alunos on-line: {totalOfStudents}</h2></div> : null}
                   {question.question ? <div><h2>Respostas corretas: {right.length}</h2> {right} </div> : null}
                   {question.question ? <div><h2>Respostas incorretas: {wrong.length}</h2> {wrong} </div> : null}
+                  <button type="button" onClick={handleGifButton(1)}>gif1</button>
+                  <button type="button" onClick={handleGifButton(2)}>gif2</button>
+                  <button type="button" onClick={handleGifButton(3)}>gif3</button>
+                  <button type="button" onClick={handleGifButton(4)}>gif4</button>
+                  <button type="button" onClick={handleGifButton(5)}>gif5</button>
                 </div> :
               <div>
                 { question.question ? 
                     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'middle', width: '30vw',textAlign: 'center'}}>
                       <h1>{question.question}</h1>
                       <fieldset disabled={answered.answered} style={{'display': 'flex', 'flex-direction': 'column', 'align-items': 'center'}}>
-                      <AnswerButton type="button" onClick={handleAnswerOne}>{question.answers[0].answer}</AnswerButton>
-                      <AnswerButton type="button" onClick={handleAnswerTwo}>{question.answers[1].answer}</AnswerButton>
-                      <AnswerButton type="button" onClick={handleAnswerThree}>{question.answers[2].answer}</AnswerButton>
-                      <AnswerButton type="button" onClick={handleAnswerFour}>{question.answers[3].answer}</AnswerButton>
+                      <AnswerButton type="button" isselected={sBut0} onClick={handleAnswer(0)}>{question.answers[0].answer}</AnswerButton>
+                      <AnswerButton type="button" isselected={sBut1} onClick={handleAnswer(1)}>{question.answers[1].answer}</AnswerButton>
+                      <AnswerButton type="button" isselected={sBut2} onClick={handleAnswer(2)}>{question.answers[2].answer}</AnswerButton>
+                      <AnswerButton type="button" isselected={sBut3} onClick={handleAnswer(3)}>{question.answers[3].answer}</AnswerButton>
                       </fieldset>
                     </div>
 
@@ -315,6 +350,7 @@ const Classroom = () => {
                  {wNewQuestion ? <img src={rightAnswer} alt="right answer"/> : null }
               </div>
             }
+            {gif ? <img src={gifs[gif]} alt="GIF time!"/> : null}
         </Content>
     </Container>
   )
