@@ -10,7 +10,6 @@ import { store } from '../../store';
 
 import backImg from '../../assets/images/back.png';
 import alunoImg from '../../assets/images/aluno.png';
-import rightAnswer from '../../assets/gifs/rightAnswer.gif';
 import gifs from '../../assets/gifs/gifs.js'
 
 import { Container, Header, HeaderContent, Content, Form, InputQuestion, AnswerButton, InputAnswer, Info, Question } from './styles';
@@ -27,7 +26,6 @@ const Classroom = ({ isSelected }) => {
   const [tAnswer2, updateTAnswer2] = useState('');
   const [tAnswer3, updateTAnswer3] = useState('');
   const [tAnswer4, updateTAnswer4] = useState('');
-  const [wNewQuestion, setWNewQuestion] = useState(false);
 
   const [bOneChecked, setBOneChecked] = useState(true);
   const [bTwoChecked, setBTwoChecked] = useState(false);
@@ -56,7 +54,6 @@ const Classroom = ({ isSelected }) => {
     const handleNewQuestion = (newQuestion, students)  =>{
       setQuestion(newQuestion);
       settotalOfStudents(students);
-      setWNewQuestion(false);
       setAnswered({answered:false});
     }
 
@@ -77,8 +74,9 @@ const Classroom = ({ isSelected }) => {
     socket.on('showAnswer', () => {
       if (answered.answered){
         if (answered.answer){
-          setWNewQuestion(true);
-          setTimeout(setWNewQuestion, 3000, false);
+          handleGif(1)
+        } else{
+          handleGif(2)
         }
       }
       setTimeout(setQuestion, 3000, {});
@@ -89,7 +87,7 @@ const Classroom = ({ isSelected }) => {
 
     return () => socket.off('question', handleNewQuestion);
 
-  }, [socket, question, totalOfStudents, wNewQuestion, answered])
+  }, [socket, question, totalOfStudents, answered])
 
   const handleFormSubmit = event => {
     //setQuestion({question : 'abc'})
@@ -164,18 +162,6 @@ const Classroom = ({ isSelected }) => {
       default:
         console.log('que botão foi esse?')
   }}
-  // const handleAnswerTwo = () => {
-  //   socket.emit('sendAnswer', {answer:question.answers[1].right, name: userName});
-  //   setAnswered({answered:true, answer:question.answers[1].right});  
-  // }
-  // const handleAnswerThree = () => {
-  //   socket.emit('sendAnswer', {answer:question.answers[2].right, name: userName});
-  //   setAnswered({answered:true, answer:question.answers[2].right});  
-  // }
-  // const handleAnswerFour = () => {
-  //   socket.emit('sendAnswer', {answer:question.answers[3].right, name: userName});
-  //   setAnswered({answered:true, answer:question.answers[3].right});
-  // }
 
   const handleGifButton= (index) => event =>{
     socket.emit('sendGif', index);
@@ -346,7 +332,6 @@ const Classroom = ({ isSelected }) => {
                     </Question>
 
                  : null}
-                 {wNewQuestion ? <img src={rightAnswer} alt="right answer"/> : null }
               </div>
             }
             {gif ? <img src={gifs[gif]} alt="GIF time!"/> : null}
