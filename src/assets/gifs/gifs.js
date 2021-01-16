@@ -1,4 +1,4 @@
-import gif1 from './rightAnswer.gif';
+import gif1 from './rightanswer.gif';
 import gif2 from './wrongAnswer.gif';
 import gif3 from './welcome.gif';
 import gif4 from './breakfast.gif';
