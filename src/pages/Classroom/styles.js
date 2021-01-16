@@ -181,3 +181,48 @@ export const AnswerButton = styled.button`
         border-color: #3163b7;
     `}
 `;
+
+export const GifDiv = styled.div`
+    width: 20vw;
+    display: flex;
+    text-align: center;
+    margin-left: 7vw;
+
+    img {
+        width: 20vw;
+    }
+`;
+
+export const GifButtons = styled.div`
+    width: 30vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-content: center;
+    line-break: auto;
+    div{
+        width:80px;
+        p {
+            margin-top: 4px;
+            line-break: auto;
+            text-align: center;
+        }
+    }
+`;
+
+export const GifButton = styled.button`
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    background: #3163b7;
+    border: none;
+    margin-top: 1.5vh;
+    align-content: center;
+
+    img {
+        width: 80px;
+        height: 80px;
+    }
+
+
+`;

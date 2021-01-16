@@ -11,8 +11,9 @@ import { store } from '../../store';
 import backImg from '../../assets/images/back.png';
 import alunoImg from '../../assets/images/aluno.png';
 import gifs from '../../assets/gifs/gifs.js'
+import gifButtons from '../../assets/images/gifButtons.js'
 
-import { Container, Header, HeaderContent, Content, Form, InputQuestion, AnswerButton, InputAnswer, Info, Question } from './styles';
+import { Container, Header, HeaderContent, Content, Form, InputQuestion, AnswerButton, InputAnswer, Info, Question, GifButtons, GifDiv, GifButton } from './styles';
 
 const Classroom = ({ isSelected }) => {
   const userName = store.getState().user.profile.name;
@@ -41,6 +42,7 @@ const Classroom = ({ isSelected }) => {
   const [a2Selected, setA2Selected] = useState(false);
   const [a3Selected, setA3Selected] = useState(false);
   const [a4Selected, setA4Selected] = useState(false);
+  const [showingif, setShowingif] = useState (false);
   
   const user = useSelector(state => state.user.profile);
 
@@ -64,7 +66,7 @@ const Classroom = ({ isSelected }) => {
 
     const handleGif = (gif) => {
       setGif(gif);
-      setTimeout(setGif, 3000, 0);
+      setTimeout(setGif, 4000, 0);
   }
 
     socket.on('question', handleNewQuestion);
@@ -79,8 +81,8 @@ const Classroom = ({ isSelected }) => {
           handleGif(2)
         }
       }
-      setTimeout(setQuestion, 3000, {});
-      setAnswered({})
+      setTimeout(setQuestion, 4000, {});
+      setTimeout(setAnswered, 4000, {});
     });
 
     socket.on('receiveGif', handleGif);
@@ -164,7 +166,12 @@ const Classroom = ({ isSelected }) => {
   }}
 
   const handleGifButton= (index) => event =>{
-    socket.emit('sendGif', index);
+    if (!showingif){
+      setShowingif(true);
+      socket.emit('sendGif', index);
+      setTimeout(setShowingif, 4500, false);
+    }
+
   }
 
   return (
@@ -182,159 +189,190 @@ const Classroom = ({ isSelected }) => {
         </Header>
 
         <Content>
-        { teacher ? 
-              <Jutsu containerStyles={{ width: '65vw', height: '89vh' }}
-                roomName="sala_de_aula002"
-                displayName={userName}
-                onMeetingEnd={() => console.log('Meeting has ended')}
-                loadingComponent={<p>loading ...</p>}
-                errorComponent={<p>Oops, something went wrong</p>}
-                configOverwrite = {{ startWithVideoMuted : "true",
-                prejoinPageEnabled : false
-                }}
-                interfaceConfigOverwrite = {{
-                  TOOLBAR_BUTTONS: ['microphone', 'camera', 'desktop',
-                  'fodeviceselection', 'chat', 'recording',
-                  'sharedvideo', 'settings', 'raisehand', 'videoquality', 'shortcuts',
-                  'tileview', 'videobackgroundblur', 'download', 'help', 'mute-everyone'],
-                  SETTINGS_SECTIONS: ["devices","language", 'moderator'],
-                  TOOLBAR_ALWAYS_VISIBLE: true,
-                  INITIAL_TOOLBAR_TIMEOUT: 999999999,
-                  TOOLBAR_TIMEOUT: 999999999,
-                  MOBILE_APP_PROMO: false,
-                  SHOW_CHROME_EXTENSION_BANNER: false,
-                  SHOW_POWERED_BY: false,
-                  VIDEO_QUALITY_LABEL_DISABLED: true,
-                  HIDE_INVITE_MORE_HEADER: true,
-                  }}
-              />
-          :
-              <Jutsu containerStyles={{ width: '65vw', height: '90vh' }}
-                roomName="sala_de_aula002"
-                displayName={userName}
-                onMeetingEnd={() => console.log('Meeting has ended')}
-                loadingComponent={<p>loading ...</p>}
-                errorComponent={<p>Oops, something went wrong</p>}
-                configOverwrite = {{ startWithVideoMuted : "true",
-                prejoinPageEnabled : false
-                }}
-                interfaceConfigOverwrite = {{
-                  TOOLBAR_BUTTONS: ['tileview','raisehand','chat',"microphone","camera","settings"],
-                  SETTINGS_SECTIONS: ["devices","language"],
-                  TOOLBAR_ALWAYS_VISIBLE: true,
-                  INITIAL_TOOLBAR_TIMEOUT: 999999999,
-                  TOOLBAR_TIMEOUT: 999999999,
-                  MOBILE_APP_PROMO: false,
-                  SHOW_CHROME_EXTENSION_BANNER: false,
-                  SHOW_POWERED_BY: false,
-                  VIDEO_QUALITY_LABEL_DISABLED: true,
-                  HIDE_INVITE_MORE_HEADER: true,
-                }}
-              />
-            }
-            { teacher ?
-                <div>
-                    <Form className="form" onSubmit={handleFormSubmit}>
-                      <fieldset disabled={sent}>
-                      <InputQuestion
-                          className="question"
-                          onChange={handleInputOneChange}
-                          placeholder="Faça uma pergunta"
-                          value={tQuestion}
-                      />
-                      <table>
-                        <tr>
-                          <th></th>
-                          <th><p>Marque a(s) resposta(s) correta(s)</p></th>
-                        </tr>
-                        <tr>
-                          <th>
-                            <InputAnswer
-                                className="answer"
-                                placeholder="Resposta 1"
-                                onChange={handleInputTwoChange}
-                                value={tAnswer1}
-                                style={{width: '20vw'}}
-                            />
-                          </th>
-                          <th>
-                            <Checkbox checked={bOneChecked} color="primary" onChange={handleSetBOneChecked} />  
-                          </th>
-                        </tr>
-                        <tr>
-                          <th>
-                            <InputAnswer
-                                className="answer"
-                                placeholder="Resposta 2"
-                                onChange={handleInputThreeChange}
-                                value={tAnswer2}
-                                style={{width: '20vw'}}
-                            />
-                          </th>
-                          <th>
-                            <Checkbox checked={bTwoChecked} color="primary" onChange={handleSetBTwoChecked} />
-                          </th>
-                        </tr>
-                        <tr>
-                          <th>
-                            <InputAnswer
-                                className="answer"
-                                placeholder="Resposta 3"
-                                onChange={handleInputFourChange}
-                                value={tAnswer3}
-                                style={{width: '20vw'}}
-                            />
-                          </th>
-                          <th>
-                            <Checkbox checked={bThreeChecked} color="primary" onChange={handleSetBThreeChecked} />
-                          </th>
-                        </tr>
-                        <tr>
-                          <th>
-                            <InputAnswer
-                                className="answer"
-                                placeholder="Resposta 4"
-                                onChange={handleInputFiveChange}
-                                value={tAnswer4}
-                                style={{width: '20vw'}}
-                            />
-                          </th>
-                          <th>
-                            <Checkbox checked={bFourChecked} color="primary" onChange={handleSetBFourChecked} />
-                          </th>
-                        </tr>
-                      </table>
-                      </fieldset>
+            { teacher ? 
+                  <Jutsu containerStyles={{ width: '65vw', height: '89vh' }}
+                    roomName="sala_de_aula002"
+                    displayName={userName}
+                    onMeetingEnd={() => console.log('Meeting has ended')}
+                    loadingComponent={<p>loading ...</p>}
+                    errorComponent={<p>Oops, something went wrong</p>}
+                    configOverwrite = {{ startWithVideoMuted : "true",
+                    prejoinPageEnabled : false
+                    }}
+                    interfaceConfigOverwrite = {{
+                      TOOLBAR_BUTTONS: ['microphone', 'camera', 'desktop',
+                      'fodeviceselection', 'chat', 'recording',
+                      'sharedvideo', 'settings', 'raisehand', 'videoquality', 'shortcuts',
+                      'tileview', 'videobackgroundblur', 'download', 'help', 'mute-everyone'],
+                      SETTINGS_SECTIONS: ["devices","language", 'moderator'],
+                      TOOLBAR_ALWAYS_VISIBLE: true,
+                      INITIAL_TOOLBAR_TIMEOUT: 999999999,
+                      TOOLBAR_TIMEOUT: 999999999,
+                      MOBILE_APP_PROMO: false,
+                      SHOW_CHROME_EXTENSION_BANNER: false,
+                      SHOW_POWERED_BY: false,
+                      VIDEO_QUALITY_LABEL_DISABLED: true,
+                      HIDE_INVITE_MORE_HEADER: true,
+                      }}
+                  />
+              :
+                  <Jutsu containerStyles={{ width: '65vw', height: '90vh' }}
+                    roomName="sala_de_aula002"
+                    displayName={userName}
+                    onMeetingEnd={() => console.log('Meeting has ended')}
+                    loadingComponent={<p>loading ...</p>}
+                    errorComponent={<p>Oops, something went wrong</p>}
+                    configOverwrite = {{ startWithVideoMuted : "true",
+                    prejoinPageEnabled : false
+                    }}
+                    interfaceConfigOverwrite = {{
+                      TOOLBAR_BUTTONS: ['tileview','raisehand','chat',"microphone","camera","settings"],
+                      SETTINGS_SECTIONS: ["devices","language"],
+                      TOOLBAR_ALWAYS_VISIBLE: true,
+                      INITIAL_TOOLBAR_TIMEOUT: 999999999,
+                      TOOLBAR_TIMEOUT: 999999999,
+                      MOBILE_APP_PROMO: false,
+                      SHOW_CHROME_EXTENSION_BANNER: false,
+                      SHOW_POWERED_BY: false,
+                      VIDEO_QUALITY_LABEL_DISABLED: true,
+                      HIDE_INVITE_MORE_HEADER: true,
+                    }}
+                  />
+                }
+                { teacher ?
+                    <div>
+                        <Form className="form" onSubmit={handleFormSubmit}>
+                          <fieldset disabled={sent}>
+                          <InputQuestion
+                              className="question"
+                              onChange={handleInputOneChange}
+                              placeholder="Faça uma pergunta"
+                              value={tQuestion}
+                          />
+                          <table>
+                            <tr>
+                              <th></th>
+                              <th><p>Marque a(s) resposta(s) correta(s)</p></th>
+                            </tr>
+                            <tr>
+                              <th>
+                                <InputAnswer
+                                    className="answer"
+                                    placeholder="Resposta 1"
+                                    onChange={handleInputTwoChange}
+                                    value={tAnswer1}
+                                    style={{width: '20vw'}}
+                                />
+                              </th>
+                              <th>
+                                <Checkbox checked={bOneChecked} color="primary" onChange={handleSetBOneChecked} />  
+                              </th>
+                            </tr>
+                            <tr>
+                              <th>
+                                <InputAnswer
+                                    className="answer"
+                                    placeholder="Resposta 2"
+                                    onChange={handleInputThreeChange}
+                                    value={tAnswer2}
+                                    style={{width: '20vw'}}
+                                />
+                              </th>
+                              <th>
+                                <Checkbox checked={bTwoChecked} color="primary" onChange={handleSetBTwoChecked} />
+                              </th>
+                            </tr>
+                            <tr>
+                              <th>
+                                <InputAnswer
+                                    className="answer"
+                                    placeholder="Resposta 3"
+                                    onChange={handleInputFourChange}
+                                    value={tAnswer3}
+                                    style={{width: '20vw'}}
+                                />
+                              </th>
+                              <th>
+                                <Checkbox checked={bThreeChecked} color="primary" onChange={handleSetBThreeChecked} />
+                              </th>
+                            </tr>
+                            <tr>
+                              <th>
+                                <InputAnswer
+                                    className="answer"
+                                    placeholder="Resposta 4"
+                                    onChange={handleInputFiveChange}
+                                    value={tAnswer4}
+                                    style={{width: '20vw'}}
+                                />
+                              </th>
+                              <th>
+                                <Checkbox checked={bFourChecked} color="primary" onChange={handleSetBFourChecked} />
+                              </th>
+                            </tr>
+                          </table>
+                          </fieldset>
 
-                      <button type='submit' onClick={handleFormSubmit}>{ sent ? 'Liberar respostas' : 'ENVIAR' }</button>
-                  </Form>
-                  <Info>
-                    {question.question ? <div><h2>Alunos on-line: {totalOfStudents}</h2></div> : null}
-                    {question.question ? <div><h2>Respostas corretas: {right.length}</h2> {right} </div> : null}
-                    {question.question ? <div><h2>Respostas incorretas: {wrong.length}</h2> {wrong} </div> : null}
-                    <button type="button" onClick={handleGifButton(1)}>gif1</button>
-                    <button type="button" onClick={handleGifButton(2)}>gif2</button>
-                    <button type="button" onClick={handleGifButton(3)}>gif3</button>
-                    <button type="button" onClick={handleGifButton(4)}>gif4</button>
-                    <button type="button" onClick={handleGifButton(5)}>gif5</button>
-                  </Info>
-                </div> :
-              <div>
-                { question.question ? 
-                    <Question>
-                      <h1>{question.question}</h1>
-                      <fieldset disabled={answered.answered} style={{'display': 'flex', 'flex-direction': 'column', 'align-items': 'center'}}>
-                        <AnswerButton type="button" isSelected={a1Selected} onClick={handleAnswer(0)}>{question.answers[0].answer}</AnswerButton>
-                        <AnswerButton type="button" isSelected={a2Selected} onClick={handleAnswer(1)}>{question.answers[1].answer}</AnswerButton>
-                        <AnswerButton type="button" isSelected={a3Selected} onClick={handleAnswer(2)}>{question.answers[2].answer}</AnswerButton>
-                        <AnswerButton type="button" isSelected={a4Selected} onClick={handleAnswer(3)}>{question.answers[3].answer}</AnswerButton>
-                      </fieldset>
-                    </Question>
+                          <button type='submit' onClick={handleFormSubmit}>{ sent ? 'Liberar respostas' : 'ENVIAR' }</button>
+                      </Form>
+                      <Info>
+                        {/* {question.question ? <div><h2>Alunos on-line: {totalOfStudents}</h2></div> : null} */}
+                        {question.question ? <div><h2>Respostas corretas: {right.length}</h2> {right} </div> : null}
+                        {question.question ? <div><h2>Respostas incorretas: {wrong.length}</h2> {wrong} </div> : null}
+                        <GifButtons>
+                          <div>
+                            <GifButton type="button" onClick={handleGifButton(3)}><img src={gifButtons[0]} alt="welcome" /></GifButton>
+                            <p>Bem Vindos</p>
+                          </div>
+                          <div>
+                            <GifButton type="button" onClick={handleGifButton(4)}><img src={gifButtons[1]} alt="breakfast" /></GifButton>
+                            <p>Hora do Lanche</p>
+                          </div>
+                          <div>
+                            <GifButton type="button" onClick={handleGifButton(5)}><img src={gifButtons[2]} alt="welldone" /></GifButton>
+                            <p>Parabéns!</p>
+                          </div>
+                          <div>
+                            <GifButton type="button" onClick={handleGifButton(6)}><img src={gifButtons[3]} alt="not this time" /></GifButton>
+                            <p>Não foi dessa vez!</p>
+                          </div>
+                        
+                          <div>
+                            <GifButton type="button" onClick={handleGifButton(7)}><img src={gifButtons[4]} alt="important" /></GifButton>
+                            <p>Atenção!!!</p>
+                          </div>
+                          <div>
+                            <GifButton type="button" onClick={handleGifButton(8)}><img src={gifButtons[5]} alt="birthday" /></GifButton>
+                            <p>Feliz Aniversário</p>
+                          </div>
+                          <div>
+                            <GifButton type="button" onClick={handleGifButton(9)}><img src={gifButtons[6]} alt="question time" /></GifButton>
+                            <p>Hora das perguntas</p>
+                          </div>
+                          <div>
+                            <GifButton type="button" onClick={handleGifButton(10)}><img src={gifButtons[7]} alt="bye" /></GifButton>
+                            <p>Até a próxima!</p>
+                          </div>
+                        </GifButtons>
+                      </Info>
+                      {gif ? <GifDiv><img src={gifs[gif]} alt="GIF time!"/> </GifDiv>: null}
+                    </div> :
+                  <div>
+                    { question.question ? 
+                        <Question>
+                          <h1>{question.question}</h1>
+                          <fieldset disabled={answered.answered} style={{'display': 'flex', 'flex-direction': 'column', 'align-items': 'center'}}>
+                            <AnswerButton type="button" isSelected={a1Selected} onClick={handleAnswer(0)}>{question.answers[0].answer}</AnswerButton>
+                            <AnswerButton type="button" isSelected={a2Selected} onClick={handleAnswer(1)}>{question.answers[1].answer}</AnswerButton>
+                            <AnswerButton type="button" isSelected={a3Selected} onClick={handleAnswer(2)}>{question.answers[2].answer}</AnswerButton>
+                            <AnswerButton type="button" isSelected={a4Selected} onClick={handleAnswer(3)}>{question.answers[3].answer}</AnswerButton>
+                          </fieldset>
+                        </Question>
 
-                 : null}
-              </div>
-            }
-            {gif ? <img src={gifs[gif]} alt="GIF time!"/> : null}
+                    : null}
+                    {gif ? <GifDiv><img src={gifs[gif]} alt="GIF time!"/> </GifDiv> : null}
+                  </div>
+                }
         </Content>
     </Container>
   )

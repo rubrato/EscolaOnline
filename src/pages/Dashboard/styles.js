@@ -1,8 +1,14 @@
 import styled from 'styled-components';
+import background from '../../assets/images/background.png';
 
 export const Container = styled.div`
-    background: #5dbcd2;
+    background: #F0F0F5 url(${background}) no-repeat center center;
     height: 100vh;
+
+    -webkit-background-size: 100% 100%;
+    -moz-background-size: 100% 100%;
+    -o-background-size: 100% 100%;
+    background-size: 100% 100%;
     
     display: flex;
     flex-direction: column;
@@ -82,5 +88,11 @@ export const Card = styled.div`
         color: #002360;
         font-size: 24px;
         font-weight: bold;  
+    }
+
+    p1{
+        color: #002360;
+        font-size: 18px;
+        font-weight: bold; 
     }
 `;

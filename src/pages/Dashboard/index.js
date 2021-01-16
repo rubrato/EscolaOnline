@@ -32,13 +32,13 @@ const Dashboard = () => {
                 <Link to="/classroom">
                 <Card>
                     <div>
-                        <p>20/01/2021</p>
-                        <p>07:00 às 08:00</p>
+                        <p>16/01/2021</p>
+                        <p1>17:00 às 17:30</p1>
                     </div>
                     <div>
-                        <p>Tema da Aula: XXXXXXXXXX</p>
-                        <p>Conteúdo da Aula</p>
-                        <p>Tarefa: Responder isso</p>
+                        <p>Aula dos Intermediários</p>
+                        <p1>Conteúdo: O poder de Deus na vida de Sansão</p1>
+                        <p>Tarefa: participar da aula</p>
                     </div>
                 </Card>
                 </Link>

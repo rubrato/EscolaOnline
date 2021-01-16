@@ -6,6 +6,8 @@ import gif5 from './welldone.gif';
 import gif6 from './notThisTime.gif';
 import gif7 from './atention.gif';
 import gif8 from './birthday.gif';
+import gif9 from './questionTime.gif';
+import gif10 from './bye.gif';
 
 
 export default [
@@ -18,4 +20,6 @@ export default [
   gif6,
   gif7,
   gif8,
+  gif9,
+  gif10
 ]
