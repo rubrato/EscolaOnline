@@ -40,8 +40,10 @@ export const HeaderContent = styled.div`
 
 export const Content = styled.div`
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    text-align: center;
+
     margin-top: 16vh;
     margin-bottom: 16vh;
 
@@ -55,5 +57,30 @@ export const Content = styled.div`
         width: 16vh;
         height: 12vh;
         background: #fff;
+    }
+
+    h1 {
+        font-size: 44px;
+        color: #002360;
+    }
+`;
+
+export const Card = styled.div`
+    width: 35vw;
+    border-radius: 5px;
+    background: #fff;
+    margin-top: 5vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2vw;
+
+
+
+    p {
+        color: #002360;
+        font-size: 24px;
+        font-weight: bold;  
     }
 `;

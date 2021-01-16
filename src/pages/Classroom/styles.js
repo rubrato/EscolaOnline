@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import background from '../../assets/images/background_classroom.png';
 
@@ -86,34 +86,6 @@ export const Form = styled.form`
     }
 `;
 
-export const AnswerButton = styled.button`
-    width: 20vw;
-    height: 30px;
-    margin-top: 20px;
-    font-size: 18px;
-
-    padding: 0 24px;
-    border: 0;
-    border-radius: 5px;
-    color: #3a3a3a;
-    :disabled{
-        background:blue;
-
-        :isselected{
-            border:5px;
-            background:red;
-            width: 20vw;
-            height: 30px;
-            margin-top: 20px;
-            font-size: 28px;
-            padding: 0 24px;
-            border-radius: 15px;
-            color: #3a3a3a; 
-        }
-    }
-`;
-
-
 export const InputQuestion = styled.input`
     margin-top: 10px;
     align-self: center;
@@ -141,9 +113,6 @@ export const InputQuestion = styled.input`
     :-ms-input-placeholder {  
     text-align: center; 
     }
-    :disabled{
-        background: green;
-    }
 `;
 
 export const DivS = styled.div`
@@ -164,4 +133,51 @@ export const InputAnswer = styled.input`
     border: 0;
     border-radius: 5px;
     color: #3a3a3a;
+`;
+
+export const Question = styled.div`
+    width: 20vw;
+    margin-left: 2vw;
+
+    text-align: center;
+    margin-top: 60%;
+
+    fieldset {
+        :disabled {
+            button {
+                background: #383838;
+                opacity: 0.7;
+            }
+        }
+    }
+`;
+
+export const Info = styled.div`
+    margin-top: 4vh;
+    margin-left: 2vw;
+
+    h2 {
+        margin-top: 1vh;
+    }
+`;
+
+export const AnswerButton = styled.button`
+    width: 20vw;
+    height: 30px;
+    margin-top: 20px;
+    font-size: 18px;
+
+    background: #3163b7;
+    color: #fff;
+
+    padding: 0 24px;
+    border: 0;
+    border-radius: 5px;
+
+    ${(props) =>
+    props.isSelected &&
+    css`
+        border: 4px solid;
+        border-color: #3163b7;
+    `}
 `;

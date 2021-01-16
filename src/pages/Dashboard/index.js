@@ -6,7 +6,7 @@ import alunoImg from '../../assets/images/aluno.png';
 
 import { signOut } from '../../store/modules/auth/actions';
 
-import { Container, Header, HeaderContent, Content } from './styles';
+import { Container, Header, HeaderContent, Content, Card } from './styles';
 
 const Dashboard = () => {
     const dispatch = useDispatch();
@@ -28,55 +28,20 @@ const Dashboard = () => {
             </Header>
 
             <Content>
-                <div>
-                <table>
-                    <tr>
-                        <th></th>
-                        <th>Segunda-feira</th>
-                        <th>Terça-feira</th>
-                        <th>Quarta-feira</th>
-                        <th>Quinta-feira</th>
-                        <th>Sexta-feira</th>
-                    </tr>
-                    <tr>
-                        <th>07:00 as 08:00</th>
-                        <th></th>
-                        <Link to="/classroom">
-                            <th style={{background: "#33a242", display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                                Aula de hoje
-                            </th>
-                        </Link>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                    <tr>
-                        <th>08:05 às 09:10</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                    <tr>
-                        <th>09:45 às 10:05</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                    <tr>
-                        <th>10:05 às 11:10</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th>
-                        </th>
-                    </tr>
-                </table>
-                </div>
+                <h1>Próximas Aulas</h1>
+                <Link to="/classroom">
+                <Card>
+                    <div>
+                        <p>20/01/2021</p>
+                        <p>07:00 às 08:00</p>
+                    </div>
+                    <div>
+                        <p>Tema da Aula: XXXXXXXXXX</p>
+                        <p>Conteúdo da Aula</p>
+                        <p>Tarefa: Responder isso</p>
+                    </div>
+                </Card>
+                </Link>
             </Content>
 
         </Container>
