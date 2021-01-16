@@ -12,7 +12,7 @@ import backImg from '../../assets/images/back.png';
 import alunoImg from '../../assets/images/aluno.png';
 import rightAnswer from '../../assets/gifs/rightanswer.gif';
 
-import { Container, Header, HeaderContent, Content, Form, AnswerButton } from './styles';
+import { Container, Header, HeaderContent, Content, Form, AnswerButton, InputQuestion, InputAnswer } from './styles';
 
 const Classroom = () => {
   const userName = store.getState().user.profile.name;
@@ -150,6 +150,10 @@ const Classroom = () => {
     setAnswered({answered:true, answer:question.answers[3].right});
   }
 
+  const handleGifButton= (index) =>{
+    socket.emit('sendGif', index);
+  }
+
   return (
       <Container>
           <Header>
@@ -166,7 +170,7 @@ const Classroom = () => {
 
         <Content>
         { teacher ? 
-              <Jutsu containerStyles={{ width: '65vw', height: '90vh' }}
+              <Jutsu containerStyles={{ width: '65vw', height: '89vh' }}
                 roomName="sala_de_aula002"
                 displayName={userName}
                 onMeetingEnd={() => console.log('Meeting has ended')}
@@ -219,66 +223,87 @@ const Classroom = () => {
                 <div>
                     <Form className="form" onSubmit={handleFormSubmit}>
                       <fieldset disabled={sent}>
-                      <h1>Criar pergunta</h1>
-                      <input
+                      <InputQuestion
                           className="question"
                           onChange={handleInputOneChange}
-                          placeholder="Pergunta"
+                          placeholder="Faça uma pergunta"
                           value={tQuestion}
-                          style={{width: '20vw'}}
                       />
-                      <div>
-                        <input
-                            className="answer"
-                            placeholder="Resposta 1"
-                            onChange={handleInputTwoChange}
-                            value={tAnswer1}
-                            style={{width: '20vw'}}
-                        />
-                        <Checkbox checked={bOneChecked} color="primary" onChange={handleSetBOneChecked} />
-                      </div>
-                      <div>
-                        <input
-                            className="answer"
-                            placeholder="Resposta 2"
-                            onChange={handleInputThreeChange}
-                            value={tAnswer2}
-                            style={{width: '20vw'}}
-                        />
-                        <Checkbox checked={bTwoChecked} color="primary" onChange={handleSetBTwoChecked} />
-                      </div>
-                      <div>
-                        <input
-                            className="answer"
-                            placeholder="Resposta 3"
-                            onChange={handleInputFourChange}
-                            value={tAnswer3}
-                            style={{width: '20vw'}}
-                        />
-                        <Checkbox checked={bThreeChecked} color="primary" onChange={handleSetBThreeChecked} />
-                      </div>
-                      <div>
-                        <input
-                            className="answer"
-                            placeholder="Resposta 4"
-                            onChange={handleInputFiveChange}
-                            value={tAnswer4}
-                            style={{width: '20vw'}}
-                        />
-                        <Checkbox checked={bFourChecked} color="primary" onChange={handleSetBFourChecked} />
-                      </div>
+                      <table>
+                        <tr>
+                          <th></th>
+                          <th><p>Marque a(s) resposta(s) correta(s)</p></th>
+                        </tr>
+                        <tr>
+                          <th>
+                            <InputAnswer
+                                className="answer"
+                                placeholder="Resposta 1"
+                                onChange={handleInputTwoChange}
+                                value={tAnswer1}
+                                style={{width: '20vw'}}
+                            />
+                          </th>
+                          <th>
+                            <Checkbox checked={bOneChecked} color="primary" onChange={handleSetBOneChecked} />  
+                          </th>
+                        </tr>
+                        <tr>
+                          <th>
+                            <InputAnswer
+                                className="answer"
+                                placeholder="Resposta 2"
+                                onChange={handleInputThreeChange}
+                                value={tAnswer2}
+                                style={{width: '20vw'}}
+                            />
+                          </th>
+                          <th>
+                            <Checkbox checked={bTwoChecked} color="primary" onChange={handleSetBTwoChecked} />
+                          </th>
+                        </tr>
+                        <tr>
+                          <th>
+                            <InputAnswer
+                                className="answer"
+                                placeholder="Resposta 3"
+                                onChange={handleInputFourChange}
+                                value={tAnswer3}
+                                style={{width: '20vw'}}
+                            />
+                          </th>
+                          <th>
+                            <Checkbox checked={bThreeChecked} color="primary" onChange={handleSetBThreeChecked} />
+                          </th>
+                        </tr>
+                        <tr>
+                          <th>
+                            <InputAnswer
+                                className="answer"
+                                placeholder="Resposta 4"
+                                onChange={handleInputFiveChange}
+                                value={tAnswer4}
+                                style={{width: '20vw'}}
+                            />
+                          </th>
+                          <th>
+                            <Checkbox checked={bFourChecked} color="primary" onChange={handleSetBFourChecked} />
+                          </th>
+                        </tr>
+                      </table>
                       </fieldset>
-                      <button type='submit' onClick={handleFormSubmit}>{ sent ? 'Liberar respostas' : 'Enviar' }</button>
+
+                      <button type='submit' onClick={handleFormSubmit}>{ sent ? 'Liberar respostas' : 'ENVIAR' }</button>
                   </Form> 
-                  {question.question ? <div><h1>Alunos on-line: </h1><h1>{totalOfStudents}</h1></div> : null}
-                  {question.question ? <div><h1>Respostas corretas: </h1><h1>{right.length}  </h1> <div>{right}</div> </div> : null}
-                  {question.question ? <div><h1>Respostas incorretas: </h1><h1>{wrong.length} {wrong}</h1></div> : null}
+                  {question.question ? <div><h2>Alunos on-line: {totalOfStudents}</h2></div> : null}
+                  {question.question ? <div><h2>Respostas corretas: {right.length}</h2> {right} </div> : null}
+                  {question.question ? <div><h2>Respostas incorretas: {wrong.length}</h2> {wrong} </div> : null}
                 </div> :
               <div>
                 { question.question ? 
-                    <div>
+                    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'middle', width: '30vw',textAlign: 'center'}}>
                       <h1>{question.question}</h1>
-                      <fieldset disabled={answered.answered}>
+                      <fieldset disabled={answered.answered} style={{'display': 'flex', 'flex-direction': 'column', 'align-items': 'center'}}>
                       <AnswerButton type="button" onClick={handleAnswerOne}>{question.answers[0].answer}</AnswerButton>
                       <AnswerButton type="button" onClick={handleAnswerTwo}>{question.answers[1].answer}</AnswerButton>
                       <AnswerButton type="button" onClick={handleAnswerThree}>{question.answers[2].answer}</AnswerButton>

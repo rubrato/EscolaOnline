@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import background from '../../assets/images/background_classroom.png';
+import background from '../../assets/images/background.png';
 
 export const Container = styled.div`
     background: #F0F0F5 url(${background}) no-repeat center center;
@@ -17,6 +17,19 @@ export const Container = styled.div`
 
     fieldset {
         border: none;
+    }
+
+    img{
+        height:50vh;
+        width:50vw;
+        margin: 20px
+    }
+    h2 {
+        background: transparent;
+        border: 0;
+        font-weight: bold;
+        color: #1d3b6c;
+        margin-top: 10px;
     }
 `;
 
@@ -55,10 +68,10 @@ export const Content = styled.div`
 `;
 
 export const Form = styled.form`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+    //display: flex;
+    //flex-direction: column;
+    //align-items: center;
+    //text-align: center;
 
     width: 30vw;
     margin-left: 24px;
@@ -68,14 +81,15 @@ export const Form = styled.form`
     }
 
     button {
-        height: 30px;
+        height: 40px;
         margin-top: 14px;
-        width: 20vw;
+        width: 10vw;
 
         border-radius: 5px;
         border: 0;
         background: #002360;
         color: #fff;
+        font-size: 18px;
         font-weight: bold;
         transition: background-color 0.2s;
     }
@@ -137,7 +151,7 @@ export const DivS = styled.div`
     color: #3a3a3a;
 `;
 
-export const InputAnswer = styled.input`
+export const InputLogin = styled.input`
     height: 30px;
     margin-top: 5px;
 

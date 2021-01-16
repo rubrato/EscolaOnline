@@ -6,7 +6,8 @@ import * as Yup from 'yup';
 
 import { signInRequest, studentSignInRequest} from '../../store/modules/auth/actions';
 
-import alunoPng from '../../assets/images/aluno.png';
+import EscolaOnline from '../../assets/images/EscolaOnline.png';
+import { Container } from './styles';
 
 const schema = Yup.object().shape({
     email: Yup.string()
@@ -36,16 +37,26 @@ export default function Login() {
     }
 
     return (
-        <>
-            <img src={alunoPng} alt="logo"/>
+        <Container>
+            <img src={EscolaOnline} alt="logo"/>
             
             <Form schema={schema} onSubmit={handleSubmit}>
-                <Input name="email" type="email" placeholder="Seu e-mail" />
-                <Input name="password" type="password" placeholder="Sua senha" />
+                <h2>Login</h2>
+                <Input name="email" type="email" placeholder="Seu e-mail" style={{ height: '30px', marginTop: '5px',
+                padding: '0 24px', border: '0', borderRadius: '5px', color: '#3a3a3a'}}/>
+                <h2>Senha</h2>
+                <Input name="password" type="password" placeholder="Sua senha" style={{ height: '30px', marginTop: '5px',
+                padding: '0 24px', border: '0', borderRadius: '5px', color: '#3a3a3a'}} />
 
-                <button type="submit">{loading ? 'Carregando...' : 'Acessar'}</button>
-                <Link to="/register">Crie sua conta</Link>
+                <div>
+                    <button type="submit" style={{height: '40px',marginTop: '14px',width: '10vw',borderRadius: '5px',
+                    border: '0', background: '#002360', color: '#fff', fontSize: '18px', fontWeight: 'bold',
+                    transition: 'background-color 0.2s'}}>
+                        {loading ? 'Carregando...' : 'Acessar'}
+                    </button>
+                </div>
+                Não tem conta? <Link to="/register">Cadastre-se</Link>
             </Form>
-        </>
+        </Container>
     )
 }

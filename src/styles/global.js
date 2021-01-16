@@ -1,5 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
+import background from '../assets/images/background.png';
+
 export default createGlobalStyle`
     * {
         margin: 0;
@@ -10,6 +12,7 @@ export default createGlobalStyle`
 
     body {
         font-family: Roboto, sans-serif;
+        background: #F0F0F5 url(${background}) no-repeat 70% top;
     }
 
     button {
