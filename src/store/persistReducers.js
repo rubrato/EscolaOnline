@@ -5,7 +5,7 @@ import { persistReducer } from 'redux-persist';
 export default reducers => {
     const persistedReducer = persistReducer(
         {
-            key: 'meetzinho',
+            key: 'EscolaOnline',
             storage,
             whitelist: ['auth', 'user'],
         }, 
