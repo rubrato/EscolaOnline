@@ -17,7 +17,7 @@ export const Container = styled.div`
 
 export const Header = styled.div`
     background: #fff;
-    height: 60px;
+    height: 8vh;
     width: 100%;
 `;
 
@@ -30,16 +30,17 @@ export const HeaderContent = styled.div`
         border: 0;
         font-weight: bold;
         color: #1d3b6c;
-        font-size: 30px;
-        margin-left: 20px;
+        font-size: 4vh;
+        margin-left: 1vw;
+        margin-right: 1vw;
     }
 
     img {
         margin-left: auto;
-        margin-right: 20px;
-        padding-top: 5px;
-        height: 50px;
-        width: 50px;
+        margin-right: 1.2vw;
+        padding-top: 0.6vh;
+        height: 7vh;
+        width: 7vh;
         border-radius: 50%;
     }
 `;
@@ -66,16 +67,16 @@ export const Content = styled.div`
     }
 
     h1 {
-        font-size: 44px;
+        font-size: 6vh;
         color: #002360;
     }
 `;
 
 export const Card = styled.div`
-    width: 35vw;
+    width: 50vw;
     border-radius: 5px;
     background: #fff;
-    margin-top: 5vh;
+    margin-top: 4vh;
 
     display: flex;
     align-items: center;
@@ -86,13 +87,13 @@ export const Card = styled.div`
 
     p {
         color: #002360;
-        font-size: 24px;
+        font-size: 4.5vh;
         font-weight: bold;  
     }
 
     p1{
         color: #002360;
-        font-size: 18px;
+        font-size: 3.5vh;
         font-weight: bold; 
     }
 `;

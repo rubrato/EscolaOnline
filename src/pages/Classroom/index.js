@@ -57,6 +57,10 @@ const Classroom = ({ isSelected }) => {
       setQuestion(newQuestion);
       settotalOfStudents(students);
       setAnswered({answered:false});
+      setA1Selected(false);
+      setA2Selected(false);
+      setA3Selected(false);
+      setA4Selected(false);
     }
 
     const handleSetNewAnswer = (right, wrong) => {
@@ -265,7 +269,7 @@ const Classroom = ({ isSelected }) => {
                                 />
                               </th>
                               <th>
-                                <Checkbox checked={bOneChecked} color="primary" onChange={handleSetBOneChecked} />  
+                                <Checkbox checked={bOneChecked} color="primary" onChange={handleSetBOneChecked} style={{height:'1vh'}} />  
                               </th>
                             </tr>
                             <tr>
@@ -279,7 +283,7 @@ const Classroom = ({ isSelected }) => {
                                 />
                               </th>
                               <th>
-                                <Checkbox checked={bTwoChecked} color="primary" onChange={handleSetBTwoChecked} />
+                                <Checkbox checked={bTwoChecked} color="primary" onChange={handleSetBTwoChecked} style={{height:'1vh'}} />
                               </th>
                             </tr>
                             <tr>
@@ -293,7 +297,7 @@ const Classroom = ({ isSelected }) => {
                                 />
                               </th>
                               <th>
-                                <Checkbox checked={bThreeChecked} color="primary" onChange={handleSetBThreeChecked} />
+                                <Checkbox checked={bThreeChecked} color="primary" onChange={handleSetBThreeChecked} style={{height:'1vh'}} />
                               </th>
                             </tr>
                             <tr>
@@ -307,7 +311,7 @@ const Classroom = ({ isSelected }) => {
                                 />
                               </th>
                               <th>
-                                <Checkbox checked={bFourChecked} color="primary" onChange={handleSetBFourChecked} />
+                                <Checkbox checked={bFourChecked} color="primary" onChange={handleSetBFourChecked} style={{height:'1vh'}}/>
                               </th>
                             </tr>
                           </table>
@@ -316,9 +320,8 @@ const Classroom = ({ isSelected }) => {
                           <button type='submit' onClick={handleFormSubmit}>{ sent ? 'Liberar respostas' : 'ENVIAR' }</button>
                       </Form>
                       <Info>
-                        {/* {question.question ? <div><h2>Alunos on-line: {totalOfStudents}</h2></div> : null} */}
-                        {question.question ? <div><h2>Respostas corretas: {right.length}</h2> {right} </div> : null}
-                        {question.question ? <div><h2>Respostas incorretas: {wrong.length}</h2> {wrong} </div> : null}
+                        {question.question ? <div><h2>Respostas corretas: {right.length}</h2> {right.join(', ')} </div> : null}
+                        {question.question ? <div><h2>Respostas incorretas: {wrong.length}</h2> {wrong.join(', ')} </div> : null}
                         <GifButtons>
                           <div>
                             <GifButton type="button" onClick={handleGifButton(3)}><img src={gifButtons[0]} alt="welcome" /></GifButton>
@@ -361,7 +364,7 @@ const Classroom = ({ isSelected }) => {
                     { question.question ? 
                         <Question>
                           <h1>{question.question}</h1>
-                          <fieldset disabled={answered.answered} style={{'display': 'flex', 'flex-direction': 'column', 'align-items': 'center'}}>
+                          <fieldset disabled={answered.answered}>
                             <AnswerButton type="button" isSelected={a1Selected} onClick={handleAnswer(0)}>{question.answers[0].answer}</AnswerButton>
                             <AnswerButton type="button" isSelected={a2Selected} onClick={handleAnswer(1)}>{question.answers[1].answer}</AnswerButton>
                             <AnswerButton type="button" isSelected={a3Selected} onClick={handleAnswer(2)}>{question.answers[2].answer}</AnswerButton>

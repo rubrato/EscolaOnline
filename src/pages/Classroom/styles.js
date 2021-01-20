@@ -22,7 +22,7 @@ export const Container = styled.div`
 
 export const Header = styled.div`
     background: #fff;
-    height: 60px;
+    height: 6.5vh;
     width: 100%;
 `;
 
@@ -35,16 +35,15 @@ export const HeaderContent = styled.div`
         border: 0;
         font-weight: bold;
         color: #1d3b6c;
-        font-size: 30px;
-        margin-left: 20px;
+        font-size: 6vh;
+        margin-left: 1vw;
     }
 
     img {
         margin-left: auto;
-        margin-right: 20px;
-        padding-top: 5px;
-        height: 50px;
-        width: 50px;
+        margin-right: 1vw;
+        padding-top: 0.5vh;
+        height: 5vh;
         border-radius: 50%;
     }
 `;
@@ -52,6 +51,23 @@ export const HeaderContent = styled.div`
 export const Content = styled.div`
     margin-top: 2vh;
     display: flex;
+
+    h1 {
+        background: transparent;
+        border: 0;
+        font-weight: bold;
+        color: #1d3b6c;
+        font-size: 5vh;
+        margin-bottom: 1vw;
+    }
+    p{
+        background: transparent;
+        border: 0;
+        font-weight: bold;
+        color: #1d3b6c;
+        font-size: 2vh;
+
+    }
 `;
 
 export const Form = styled.form`
@@ -61,15 +77,15 @@ export const Form = styled.form`
     text-align: center;
 
     width: 30vw;
-    margin-left: 24px;
+    margin-left: 1.2vw;
 
     div {
         width: 100%;
     }
 
     button {
-        height: 30px;
-        margin-top: 14px;
+        height: 3vh;
+        margin-top: 1.4vh;
         width: 20vw;
 
         border-radius: 5px;
@@ -81,15 +97,15 @@ export const Form = styled.form`
     }
 
     p {
-        margin-top: 6px;
-        font-size: 12px;
+        margin-top: 0.6vh;
+        font-size: 1.5vh;
     }
 `;
 
 export const InputQuestion = styled.input`
-    margin-top: 10px;
+    margin-top: 1vh;
     align-self: center;
-    height: 50px;
+    height: 5vh;
     width: 30vw;
 
     border: 0;
@@ -113,35 +129,39 @@ export const InputQuestion = styled.input`
     :-ms-input-placeholder {  
     text-align: center; 
     }
+
 `;
 
 export const DivS = styled.div`
-    height: 30px;
-    margin-top: 5px;
+    height: 3vh;
+    margin-top: 0.5vh;
 
-    padding: 0 24px;
+    padding: 0 2.4vh;
     border: 0;
     border-radius: 5px;
     color: #3a3a3a;
 `;
 
 export const InputAnswer = styled.input`
-    height: 30px;
-    margin-top: 5px;
+    height: 3vh;
+    margin-top: 0.5vh;
 
-    padding: 0 24px;
+    padding: 0 2.4vh;
     border: 0;
     border-radius: 5px;
     color: #3a3a3a;
 `;
 
 export const Question = styled.div`
-    width: 20vw;
+    width: 30vw;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
     margin-left: 2vw;
-
     text-align: center;
-    margin-top: 60%;
-
+    
     fieldset {
         :disabled {
             button {
@@ -162,34 +182,37 @@ export const Info = styled.div`
 `;
 
 export const AnswerButton = styled.button`
-    width: 20vw;
-    height: 30px;
-    margin-top: 20px;
-    font-size: 18px;
+    width: 30vw;
+    height: 10vh;
+    margin-top: 0.5vh;
+    font-size: 4vh;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
     background: #3163b7;
     color: #fff;
 
-    padding: 0 24px;
     border: 0;
     border-radius: 5px;
 
     ${(props) =>
     props.isSelected &&
     css`
-        border: 4px solid;
+        border: 5px solid;
         border-color: #3163b7;
     `}
 `;
 
 export const GifDiv = styled.div`
-    width: 20vw;
+    width: 30vw;
+    height: 20vh;
     display: flex;
     text-align: center;
-    margin-left: 7vw;
+
 
     img {
-        width: 20vw;
+        width: 30vw;
     }
 `;
 
@@ -201,7 +224,7 @@ export const GifButtons = styled.div`
     align-content: center;
     line-break: auto;
     div{
-        width:80px;
+        width:7vw;
         p {
             margin-top: 4px;
             line-break: auto;
@@ -212,16 +235,16 @@ export const GifButtons = styled.div`
 
 export const GifButton = styled.button`
     border-radius: 50%;
-    width: 80px;
-    height: 80px;
+    width: 7vw;
+    height: 7vw;
     background: #3163b7;
     border: none;
     margin-top: 1.5vh;
     align-content: center;
 
     img {
-        width: 80px;
-        height: 80px;
+        width: 7vw;
+        height: 7vw;
     }
 
 
