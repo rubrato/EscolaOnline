@@ -22,43 +22,21 @@ export const Container = styled.div`
     img{
         height:50vh;
         width:50vw;
-        margin: 20px
+        margin: 3vh
     }
     h2 {
         background: transparent;
         border: 0;
         font-weight: bold;
         color: #1d3b6c;
-        margin-top: 10px;
+        margin-top: 1.5vh;
+        font-size: 4vh;
     }
-`;
-
-export const Header = styled.div`
-    background: #fff;
-    height: 60px;
-    width: 100%;
-`;
-
-export const HeaderContent = styled.div`
-    display: flex;
-    align-items: center;
-
-    a, h1 {
-        background: transparent;
-        border: 0;
+    p {
         font-weight: bold;
         color: #1d3b6c;
-        font-size: 30px;
-        margin-left: 20px;
-    }
-
-    img {
-        margin-left: auto;
-        margin-right: 20px;
-        padding-top: 5px;
-        height: 50px;
-        width: 50px;
-        border-radius: 50%;
+        margin-top: 1vh;
+        font-size: 3vh;
     }
 `;
 
@@ -74,88 +52,37 @@ export const Form = styled.form`
     //text-align: center;
 
     width: 30vw;
-    margin-left: 24px;
+    margin-left: 1.5vw;
 
     div {
         width: 100%;
     }
 
     button {
-        height: 40px;
-        margin-top: 14px;
+        height: 5vh;
+        margin-top: 1.5vh;
         width: 10vw;
 
         border-radius: 5px;
         border: 0;
         background: #002360;
         color: #fff;
-        font-size: 18px;
+        font-size: 2.5vh;
         font-weight: bold;
         transition: background-color 0.2s;
     }
 
     p {
-        margin-top: 6px;
-        font-size: 12px;
+        margin-top: 1vh;
+        font-size: 2vh;
     }
-`;
-
-export const AnswerButton = styled.button`
-    width: 20vw;
-    height: 30px;
-    margin-top: 20px;
-    font-size: 18px;
-
-    padding: 0 24px;
-    border: 0;
-    border-radius: 5px;
-    color: #3a3a3a;
-`;
-
-export const InputQuestion = styled.input`
-    margin-top: 10px;
-    align-self: center;
-    height: 50px;
-    width: 30vw;
-
-    border: 0;
-    border-radius: 5px;
-    color: #3a3a3a;
-
-    text-align: center;
-
-    ::-webkit-input-placeholder {
-        text-align: center;
-    }
-
-    :-moz-placeholder { /* Firefox 18- */
-    text-align: center;  
-    }
-
-    ::-moz-placeholder {  /* Firefox 19+ */
-    text-align: center;  
-    }
-
-    :-ms-input-placeholder {  
-    text-align: center; 
-    }
-`;
-
-export const DivS = styled.div`
-    height: 30px;
-    margin-top: 5px;
-
-    padding: 0 24px;
-    border: 0;
-    border-radius: 5px;
-    color: #3a3a3a;
 `;
 
 export const InputLogin = styled.input`
-    height: 30px;
-    margin-top: 5px;
+    height: 5vh;
+    margin-top: 1vh;
 
-    padding: 0 24px;
+    padding: 0 3vh;
     border: 0;
     border-radius: 5px;
     color: #3a3a3a;

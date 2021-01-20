@@ -42,20 +42,20 @@ export default function Login() {
             
             <Form schema={schema} onSubmit={handleSubmit}>
                 <h2>Login</h2>
-                <Input name="email" type="email" placeholder="Seu e-mail" style={{ height: '30px', marginTop: '5px',
-                padding: '0 24px', border: '0', borderRadius: '5px', color: '#3a3a3a'}}/>
+                <Input name="email" type="email" placeholder="Seu e-mail" style={{ height: '4vh', marginTop: '1vh',
+                padding: '0 3vh', border: '0', borderRadius: '5px', color: '#3a3a3a'}}/>
                 <h2>Senha</h2>
-                <Input name="password" type="password" placeholder="Sua senha" style={{ height: '30px', marginTop: '5px',
-                padding: '0 24px', border: '0', borderRadius: '5px', color: '#3a3a3a'}} />
+                <Input name="password" type="password" placeholder="Sua senha" style={{ height: '4vh', marginTop: '1vh',
+                padding: '0 3vh', border: '0', borderRadius: '5px', color: '#3a3a3a'}} />
 
                 <div>
-                    <button type="submit" style={{height: '40px',marginTop: '14px',width: '10vw',borderRadius: '5px',
-                    border: '0', background: '#002360', color: '#fff', fontSize: '18px', fontWeight: 'bold',
+                    <button type="submit" style={{height: '5vh',marginTop: '1vh',width: '10vw',borderRadius: '1vh',
+                    border: '0', background: '#002360', color: '#fff', fontSize: '2.5vh', fontWeight: 'bold',
                     transition: 'background-color 0.2s'}}>
                         {loading ? 'Carregando...' : 'Acessar'}
                     </button>
                 </div>
-                Não tem conta? <Link to="/register">Cadastre-se</Link>
+                <p>Não tem conta? <Link to="/register">Cadastre-se</Link></p>
             </Form>
         </Container>
     )
